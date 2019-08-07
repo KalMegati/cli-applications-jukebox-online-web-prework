@@ -11,26 +11,17 @@ end
 def play(songs)
   puts "Please enter a song name or number:"
   track = gets.strip
-  if track.to_i > songs.length
+  if track.to_i >= 1 && track.to_i <= songs.length
+    puts "Playing #{songs[track.to_i-1]}"
+  elsif songs.include?(track)
+    puts "Playing #{track}"
+  else
     puts "Invalid input, please try again"
   end
-  if track.to_i == 0
-    unless songs.include?(track)
-      puts "Invalid input, please try again"
-    end
-  end
-  songs.length.times { |index|
-    if songs[index] == track || index == track.to_i - 1
-     puts songs[index]
-     return songs[index]
-    end
-  }
 end
 
 def list(songs)
-  songs.length.times { |index|
-    puts ("#{index+1}. " + songs[index])
-  }
+  songs.length.times { |index| puts ("#{index+1}. " + songs[index]) }
 end
 
 def exit_jukebox
@@ -42,18 +33,14 @@ def run(songs)
   command = gets.strip
   if command == "exit"
     exit_jukebox
-  end
-  if command == "list"
+  elsif command == "list"
     list(songs)
-    run(songs)
-  end
-  if command == "help"
+  elsif command == "help"
     help
-    run(songs)
+  elsif command == "play"
+    play(songs)
   end
-  if command == "play"
-    pussycat = play(songs)
-    puts "Playing " + pussycat
+  unless command == "exit"
     run(songs)
   end
 end
